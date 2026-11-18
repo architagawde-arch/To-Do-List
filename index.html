@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TASKVERSE – Your Personal Productivity Universe</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Sora:wght@500;600;700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+
+<body>
+  <div class="atmos" aria-hidden="true"><i></i><i></i><i></i></div>
+
+  <!-- Mobile top bar with hamburger -->
+  <header class="topbar">
+    <button class="icon-btn" id="menuBtn" aria-label="Open navigation" aria-expanded="false" aria-controls="side"><i
+        data-i="menu"></i></button>
+    <div class="brand"><svg class="logo" viewBox="0 0 40 40">
+        <use href="#logo" />
+      </svg><b>TASKS</b></div>
+    <button class="icon-btn js-theme" aria-label="Toggle theme"><i data-i="moon"></i></button>
+  </header>
+  <div class="scrim" id="scrim"></div>
+
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="logo" viewBox="0 0 40 40">
+        <defs>
+          <linearGradient id="lg" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#22d3ee" />
+            <stop offset="1" stop-color="#7c5cff" />
+          </linearGradient>
+        </defs>
+        <circle cx="20" cy="20" r="9" fill="url(#lg)" />
+        <ellipse cx="20" cy="20" rx="18" ry="6.5" fill="none" stroke="#c4b5fd" stroke-width="2"
+          transform="rotate(-24 20 20)" />
+        <circle cx="34" cy="12" r="2.6" fill="#22d3ee" />
+      </symbol>
+    </defs>
+  </svg>
+
+  <div class="app">
+    <!-- LEFT SIDEBAR -->
+    <aside class="side" id="side" aria-label="Main navigation">
+      <div class="brand"><svg class="logo" viewBox="0 0 40 40">
+          <use href="#logo" />
+        </svg><b>TASKVERSE</b>
+        <button class="icon-btn close" id="closeBtn" aria-label="Close navigation"><i data-i="x"></i></button>
+      </div>
+      <nav>
+        <button class="nav on" data-view="overview"><i data-i="home"></i>Overview</button>
+        <button class="nav" data-view="tasks"><i data-i="list"></i>My Tasks<em data-count="tasks"></em></button>
+        <button class="nav" data-view="today"><i data-i="calendar"></i>Today<em data-count="today"></em></button>
+        <button class="nav" data-view="upcoming"><i data-i="clock"></i>Upcoming<em data-count="upcoming"></em></button>
+        <button class="nav" data-view="completed"><i data-i="check"></i>Completed<em
+            data-count="completed"></em></button>
+        <p class="grp">Categories</p>
+        <button class="nav" data-view="cat:Personal"><i data-i="tag"></i>Personal</button>
+        <button class="nav" data-view="cat:Study"><i data-i="tag"></i>Study</button>
+        <button class="nav" data-view="cat:Work"><i data-i="tag"></i>Work</button>
+        <button class="nav" data-view="cat:Other"><i data-i="tag"></i>Other</button>
+      </nav>
+      <button class="nav js-theme side-foot"><i data-i="moon"></i><span id="themeLbl">Light theme</span></button>
+    </aside>
+
+    <!-- CENTER WORKSPACE -->
+    <main>
+      <section class="hero glass rise" style="--d:.05s">
+        <div class="hero-text">
+          <p class="date" id="date"></p>
+          <h1 id="greet">Hello</h1>
+          <p class="msg" id="msg"></p>
+          <div class="hero-act"><button class="btn" id="newBtn"><i data-i="plus"></i>New task</button><span
+              class="clock" id="clock" aria-label="Current time">00:00:00</span></div>
+        </div>
+        <div class="hero-stats">
+          <div class="ring"><svg viewBox="0 0 120 120">
+              <defs>
+                <linearGradient id="rg" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0" stop-color="#22d3ee" />
+                  <stop offset="1" stop-color="#7c5cff" />
+                </linearGradient>
+              </defs>
+              <circle class="trk" cx="60" cy="60" r="52" />
+              <circle class="bar" id="ringBar" cx="60" cy="60" r="52" />
+            </svg>
+            <div class="ring-n"><b id="pct">0%</b><span>done</span></div>
+          </div>
+          <dl class="stats">
+            <div>
+              <dt>Total</dt>
+              <dd id="sTotal">0</dd>
+            </div>
+            <div>
+              <dt>Completed</dt>
+              <dd id="sDone">0</dd>
+            </div>
+            <div>
+              <dt>Pending</dt>
+              <dd id="sPend">0</dd>
+            </div>
+          </dl>
+        </div>
+      </section>
+
+      <form class="compose glass rise" style="--d:.12s" id="quick" autocomplete="off">
+        <input id="quickInput" type="text" maxlength="120" placeholder="Add a task and press Enter…"
+          aria-label="Quick add task">
+        <select id="quickPri" aria-label="Priority">
+          <option value="high">High</option>
+          <option value="medium" selected>Medium</option>
+          <option value="low">Low</option>
+        </select>
+        <select id="quickCat" aria-label="Category">
+          <option>Personal</option>
+          <option>Study</option>
+          <option>Work</option>
+          <option>Other</option>
+        </select>
+        <button class="btn" type="submit"><i data-i="plus"></i>Add</button>
+      </form>
+
+      <section class="tools rise" style="--d:.18s">
+        <label class="search"><i data-i="search"></i><input id="search" type="search" placeholder="Search tasks"
+            aria-label="Search tasks"></label>
+        <div class="chips" role="group" aria-label="Filter">
+          <button class="chip on" data-status="all">All</button><button class="chip"
+            data-status="active">Active</button><button class="chip" data-status="completed">Completed</button>
+        </div>
+        <select id="sort" aria-label="Sort tasks">
+          <option value="priority">Priority</option>
+          <option value="newest">Newest</option>
+          <option value="oldest">Oldest</option>
+        </select>
+        <button class="chip focus" id="focusBtn" aria-pressed="false"><i data-i="target"></i>Focus</button>
+      </section>
+
+      <h2 class="list-head"><span id="viewTitle">Overview</span><small id="liveCount"></small><button class="chip"
+          id="clearBtn" hidden>Clear completed</button></h2>
+      <ul class="list" id="list" aria-live="polite"></ul>
+      <div class="empty" id="empty" hidden>
+        <svg viewBox="0 0 200 140" aria-hidden="true">
+          <circle cx="100" cy="72" r="34" fill="url(#lg)" opacity=".9" />
+          <ellipse cx="100" cy="72" rx="78" ry="20" fill="none" stroke="#c4b5fd" stroke-width="3"
+            transform="rotate(-18 100 72)" />
+          <circle cx="168" cy="50" r="6" fill="#22d3ee" />
+          <circle cx="30" cy="30" r="2" fill="#c4b5fd" />
+          <circle cx="60" cy="118" r="2.5" fill="#22d3ee" />
+          <circle cx="172" cy="112" r="2" fill="#c4b5fd" />
+        </svg>
+        <h3 id="emptyT">Your universe is quiet</h3>
+        <p id="emptyP">Add your first task and start moving.</p>
+      </div>
+    </main>
+
+    <!-- RIGHT PANEL -->
+    <aside class="panel">
+      <section class="glass card rise" style="--d:.2s">
+        <h3>This week</h3>
+        <div class="week" id="week"></div>
+        <div class="kpis">
+          <div><i data-i="flame"></i><b id="streak">0</b><span>day streak</span></div>
+          <div><i data-i="target"></i><b id="score">0</b><span>score</span></div>
+        </div>
+      </section>
+      <section class="glass card rise" style="--d:.26s">
+        <h3>Daily quote</h3>
+        <blockquote id="quote"></blockquote>
+      </section>
+      <section class="glass card rise" style="--d:.32s">
+        <h3>Upcoming</h3>
+        <ul class="up" id="up"></ul>
+      </section>
+    </aside>
+  </div>
+
+  <!-- Task modal -->
+  <dialog id="modal">
+    <form id="taskForm" method="dialog" novalidate>
+      <h2 id="modalTitle">New task</h2>
+      <label>Task<input id="fText" maxlength="120" placeholder="What needs doing?" required><small class="err" id="fErr"
+          hidden>Enter a task name.</small></label>
+      <div class="row"><label>Priority<select id="fPri">
+            <option value="high">High</option>
+            <option value="medium" selected>Medium</option>
+            <option value="low">Low</option>
+          </select></label>
+        <label>Category<select id="fCat">
+            <option>Personal</option>
+            <option>Study</option>
+            <option>Work</option>
+            <option>Other</option>
+          </select></label>
+      </div>
+      <label>Due date (optional)<input id="fDue" type="date"></label>
+      <div class="row end"><button type="button" class="btn ghost" id="cancelBtn">Cancel</button><button class="btn"
+          type="submit" id="saveBtn">Add task</button></div>
+    </form>
+  </dialog>
+
+  <!-- Delete confirmation -->
+  <dialog id="confirm">
+    <div class="cbox">
+      <h2 id="confirmTitle">Delete this task?</h2>
+      <p id="confirmTxt"></p>
+      <div class="row end"><button class="btn ghost" id="noBtn">Keep it</button><button class="btn danger"
+          id="yesBtn">Delete task</button></div>
+    </div>
+  </dialog>
+
+  <div class="toasts" id="toasts" role="status" aria-live="polite"></div>
+  <canvas id="confetti" aria-hidden="true"></canvas>
+</body>
+
+</html>
